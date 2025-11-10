@@ -1,3 +1,8 @@
+import sys
+from antlr4 import *
+from ParserProjectLexer import ParserProjectLexer
+from ParserProjectParser import ParserProjectParser
+
 assign1 = "20"
 assign2 = 123
 assign3 = 1.23
