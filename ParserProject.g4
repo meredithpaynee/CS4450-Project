@@ -1,7 +1,21 @@
 grammar ParserProject;
 
-start: x'a'x'a'x EOF;
+prog: expr EOF;
 
-x:  | 'b'x ;
+expr: assignment
+	| expr ('+' | '-' | '*' | '/' | '%') expr
+	| INT
+	| DOUBLE
+	| '[' INNERARRAY;
+	
+INT: [0-9]+ ;
 
-WS : [ \t\r\n]+ -> skip ;
+DOUBLE: [0-9]+ '.' [0-9]+;
+
+INNERARRAY: INT ',' INNERARRAY | ']';
+
+VARNAME: [a-zA-Z0-9_]+;
+
+assignment:  VARNAME ('=' | '+=' | '-=' | '*=' | '/=') expr;
+
+WS: [ \t\n\r]+ -> skip;
