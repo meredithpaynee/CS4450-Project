@@ -6,16 +6,22 @@ expr: assignment
 	| expr ('+' | '-' | '*' | '/' | '%') expr
 	| INT
 	| DOUBLE
-	| '[' INNERARRAY;
+	| '[' innerarray
+	| STRING
+	| NEWLINE;
 	
 INT: [0-9]+ ;
 
 DOUBLE: [0-9]+ '.' [0-9]+;
 
-INNERARRAY: INT ',' INNERARRAY | ']';
+STRING: ('\'' | '"')[a-zA-Z0-9]+('\'' | '"');
+
+innerarray: INT ',' innerarray | ']';
 
 VARNAME: [a-zA-Z0-9_]+;
 
 assignment:  VARNAME ('=' | '+=' | '-=' | '*=' | '/=') expr;
 
-WS: [ \t\n\r]+ -> skip;
+WS: [ ]+ -> skip;
+
+NEWLINE: [\r\n];
