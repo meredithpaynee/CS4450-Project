@@ -1,21 +1,27 @@
 grammar ParserProject;
 
-prog: expr EOF;
+program: expr EOF;
 
 expr: assignment
 	| expr ('+' | '-' | '*' | '/' | '%') expr
 	| INT
 	| DOUBLE
-	| '[' INNERARRAY;
+	| STRING
+	| '[' innerarray
+	| NEWLINE;
 	
 INT: [0-9]+ ;
 
 DOUBLE: [0-9]+ '.' [0-9]+;
 
-INNERARRAY: INT ',' INNERARRAY | ']';
+STRING: '\''[a-zA-Z]+'\'';
+
+innerarray: (INT | STRING | DOUBLE) ', ' innerarray | ']';
 
 VARNAME: [a-zA-Z0-9_]+;
 
 assignment:  VARNAME ('=' | '+=' | '-=' | '*=' | '/=') expr;
 
-WS: [ \t\n\r]+ -> skip;
+NEWLINE: [\r\n]+;
+
+WS: [ ]+ -> skip;
