@@ -11,9 +11,9 @@ expr: assignment
 	| '[' innerarray
 	| NEWLINE;
 	
-INT: [0-9]+ ;
+INT: ('-')?[0-9]+ ;
 
-DOUBLE: [0-9]+ '.' [0-9]+;
+DOUBLE: ('-')?[0-9]+ '.' [0-9]+;
 
 STRING: ('\'' | '"')[a-zA-Z0-9]+('\'' | '"');
 
