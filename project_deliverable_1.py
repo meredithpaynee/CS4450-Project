@@ -1,8 +1,3 @@
-import sys
-from antlr4 import *
-from ParserProjectLexer import ParserProjectLexer
-from ParserProjectParser import ParserProjectParser
-
 assign1 = "20"
 assign2 = 123
 assign3 = 1.23
@@ -27,5 +22,6 @@ var1 = 10
 var2 = var1/2 + 5
 var3 = var2 % 2
 var4 = 1
+
 
 flag = True
