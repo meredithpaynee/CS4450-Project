@@ -7,3 +7,5 @@ Group Information
 3. Meredith Payne
 
 Deliverable 1 - All work was done in collaboration in-person. Contribution was equal between all three members. We found it easier to do it this way as opposed to splitting things up and working individually. 
+
+Deliverable 2 - We operated under the same collaboration style as in deliverable 1. All work was completed during in person collaboration.
