@@ -9,7 +9,8 @@ expr: assignment
 	| STRING
     | VARNAME
     | bool
-	| '[' innerarray;
+	| '[' innerarray
+	NEWLINE;
 	
 INT: ('-')?[0-9]+ ;
 
@@ -17,9 +18,11 @@ DOUBLE: ('-')?[0-9]+ '.' [0-9]+;
 
 STRING: ('\'' | '"')[a-zA-Z0-9 ]*('\'' | '"');
 
-innerarray: ((INT | STRING | DOUBLE) (', ')?)+ | ']';
+innerarray: ((INT | STRING | DOUBLE) (', ')?)+ ']';
 
 VARNAME: [a-zA-Z0-9_]+;
+
+FUNCTION: VARNAME '(' INT ',' INT ')';
 
 bool: 'True' | 'False';
 
@@ -35,7 +38,7 @@ else: 'else' ':' NEWLINE ('\t' expr NEWLINE)+;
 
 loops: for | while;
 
-for: 'for' VARNAME 'in' ':';// NEWLINE '/t';
+for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE ('\t' expr | '\t' blocks | '\t' loops)+;
 
 while: 'while' conditional+ NEWLINE ('\t' expr | '\t' blocks | '\t' loops)+;
 
