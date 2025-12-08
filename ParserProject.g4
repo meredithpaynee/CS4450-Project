@@ -21,7 +21,7 @@ DOUBLE: ('-')?[0-9]+ '.' [0-9]+;
 
 STRING: ('\'' | '"')[a-zA-Z0-9 ]*('\'' | '"');
 
-innerarray: ((INT | STRING | DOUBLE) (', ')?)+ | ']';
+innerarray: ((INT | STRING | DOUBLE) (', ')?)+ ']';
 
 VARNAME: [a-zA-Z0-9_]+;
 
