@@ -1,6 +1,6 @@
 grammar ParserProject;
 
-program: (expr | blocks | loops | ONELINECOMMENT | NEWLINE)+ EOF;
+program: (expr | blocks | loops | ONELINECOMMENT | MULTICOMMENT | NEWLINE)+ EOF;
 
 expr: assignment
 	| expr ('+' | '-' | '*' | '/' | '%') expr
@@ -51,9 +51,9 @@ two: 'and' conditional
     | 'or' conditional
     | ':';
     
-ONELINECOMMENT: ('#' | '##') .*?;
+ONELINECOMMENT: ('#' | '##') .*? -> skip;
 
-multilineComment: ('\'\'\'' | '"""')(. | NEWLINE | '\t')+?('\'\'\'' | '"""');
+MULTICOMMENT: '\'\'\'' ( . | '\n' | '\r')*? '\'\'\'' ->skip ;
 
 NEWLINE: [\n\r]+;
 
