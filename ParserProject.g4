@@ -10,13 +10,13 @@ expr: assignment
     | VARNAME
     | bool
 	| '[' innerarray
-	NEWLINE;
+	| NEWLINE;
 	
 INT: ('-')?[0-9]+ ;
 
 DOUBLE: ('-')?[0-9]+ '.' [0-9]+;
 
-STRING: ('\'' | '"')[a-zA-Z0-9 ]*('\'' | '"');
+STRING: ('\'' | '"')[a-zA-Z0-9 .']*('\'' | '"');
 
 innerarray: ((INT | STRING | DOUBLE) (', ')?)+ ']';
 
@@ -28,38 +28,36 @@ bool: 'True' | 'False';
 
 assignment:  VARNAME ('=' | '+=' | '-=' | '*=' | '/=') expr;
 
-blocks: if | elif | else;
-
-if :'if' conditional+ NEWLINE ('\t' expr NEWLINE)+; 
-
-elif: 'elif' conditional+ NEWLINE ('\t' expr NEWLINE)+;
-
-else: 'else' ':' NEWLINE ('\t' expr NEWLINE)+;
+blocks: 'if' conditional ':' NEWLINE innerloop 
+    ('elif' conditional ':' NEWLINE innerloop)*
+    ('else' ':' NEWLINE innerloop)?;
 
 loops: for | while;
 
-for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE ('\t' expr | '\t' blocks | '\t' loops)+;
+for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE innerloop;
 
-while: 'while' conditional+ NEWLINE ('\t' expr | '\t' blocks | '\t' loops)+;
+while: 'while' conditional ':' NEWLINE innerloop;
 
-conditional: expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr two
-    | ('not')? (VARNAME)
+innerloop: ('\t'+ (expr | blocks | loops) NEWLINE?)+;
+
+conditional: '('? expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr ')'? two
+    | 'not' (VARNAME) two
     | '(' conditional ')' two
     | bool two;
 
 two: 'and' conditional
     | 'or' conditional
-    | ':';
+    | ':'
+    | ;
     
-ONELINECOMMENT: ('#' | '##') .*? -> skip;
+ONELINECOMMENT: ('#' ~[\r\n]*) -> skip;
 
-MULTICOMMENT: '\'\'\'' ( . | '\n' | '\r')*? '\'\'\'' ->skip ;
+MULTICOMMENT: ('\'\'\'' .*? '\'\'\'') ->skip ;
 
 NEWLINE: [\n\r]+;
 
-WS: [ ]+ -> skip;
+//current issues
+//slightly incorrect nesting
+//comments are not being red as comments
 
-//the tree structure is not nested properly. The blocks under an if statement should be nested appropriately 
-//under the if statment. Similarly for if and else parts for an if-else statement. Similarly for the if-elif-else 
-//statement. The statements in each block should be nested together appropriately under a sub-tree. Each statement
-//is split into its own subtree.
+WS: [ ]+ -> skip;
