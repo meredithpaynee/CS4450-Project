@@ -1,6 +1,6 @@
 # CS4450-Project
 
-Our project creates a parser for Python3 using a Java lexer and parser. We used ANTLR for our implementation. The grammar handles variable assignments, arithmentic expressions, booleans, arraus, if/elif/else blocks, for/while loops, and comments.
+Our project creates a parser for Python3 using a Java lexer and parser. We used ANTLR for our implementation. The grammar handles variable assignments, arithmentic expressions, booleans, arrays, if/elif/else blocks, for/while loops, and comments.
 
 ## Team Members
 
