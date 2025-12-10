@@ -11,35 +11,26 @@ expr: assignment
     | bool
 	| '[' innerarray
 	| NEWLINE;
-	
-INT: ('-')?[0-9]+ ;
-
-DOUBLE: ('-')?[0-9]+ '.' [0-9]+;
-
-STRING: ('\'' | '"')[a-zA-Z0-9 .']*('\'' | '"');
-
-innerarray: ((INT | STRING | DOUBLE) (', ')?)+ ']';
-
-VARNAME: [a-zA-Z0-9_]+;
-
-FUNCTION: VARNAME '(' INT ',' INT ')';
-
-bool: 'True' | 'False';
 
 assignment:  VARNAME ('=' | '+=' | '-=' | '*=' | '/=') expr;
+
+INT: ('-')?[0-9]+ ;
+DOUBLE: ('-')?[0-9]+ '.' [0-9]+;
+STRING: ('\'' | '"')[a-zA-Z0-9 .']*('\'' | '"');
+innerarray: ((INT | STRING | DOUBLE) (', ')?)+ ']';
+VARNAME: [a-zA-Z0-9_]+;
+FUNCTION: VARNAME '(' INT ',' INT ')';
+bool: 'True' | 'False';
 
 blocks: if;
 
 if :'if' conditional+ NEWLINE innerloop elif* else?; 
-
 elif: 'elif' conditional+ NEWLINE innerloop;
-
 else: 'else' ':' NEWLINE innerloop;
 
 loops: for | while;
 
 for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE innerloop;
-
 while: 'while' conditional+ NEWLINE innerloop;
 
 innerloop: (('\t'+ expr | '\t'+ if '\t'* elif* | '\t'+ loops) NEWLINE?)+;
@@ -54,9 +45,6 @@ two: 'and' conditional
     | ':';
     
 ONELINECOMMENT: ('#' | '##') .*? -> skip;
-
 MULTICOMMENT: '\'\'\'' ( . | '\n' | '\r')*? '\'\'\'' ->skip ;
-
 NEWLINE: [\n\r]+;
-
 WS: [ ]+ -> skip;
