@@ -1,12 +1,9 @@
 grammar ParserProject;
 
-program: expr+ EOF;
+program: (expr | blocks | loops | ONELINECOMMENT | MULTICOMMENT | NEWLINE)+ EOF;
 
 expr: assignment
 	| expr ('+' | '-' | '*' | '/' | '%') expr
-	| if
-	| elif
-	| else
 	| INT
 	| DOUBLE
 	| STRING
@@ -19,29 +16,46 @@ INT: ('-')?[0-9]+ ;
 
 DOUBLE: ('-')?[0-9]+ '.' [0-9]+;
 
-STRING: ('\'' | '"')[a-zA-Z0-9 ]*('\'' | '"');
+STRING: ('\'' | '"')[a-zA-Z0-9 .']*('\'' | '"');
 
 innerarray: ((INT | STRING | DOUBLE) (', ')?)+ ']';
 
 VARNAME: [a-zA-Z0-9_]+;
 
+FUNCTION: VARNAME '(' INT ',' INT ')';
+
 bool: 'True' | 'False';
 
 assignment:  VARNAME ('=' | '+=' | '-=' | '*=' | '/=') expr;
 
-if:  'if' conditional NEWLINE ('\t' expr NEWLINE)+; 
+blocks: if;
 
-elif: 'elif' conditional NEWLINE ('\t' expr NEWLINE)+;
+if :'if' conditional+ NEWLINE innerloop elif* else?; 
 
-else: 'else' ':' NEWLINE ('\t' expr NEWLINE)+;
+elif: 'elif' conditional+ NEWLINE innerloop;
 
-conditional: expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr two
+else: 'else' ':' NEWLINE innerloop;
+
+loops: for | while;
+
+for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE innerloop;
+
+while: 'while' conditional+ NEWLINE innerloop;
+
+innerloop: (('\t'+ expr | '\t'+ if '\t'* elif* | '\t'+ loops) NEWLINE?)+;
+
+conditional: '('? expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr ')'? two
     | ('not')? (VARNAME)
-    | '(' conditional ')' two;
+    | '(' conditional ')' two
+    | bool two;
 
 two: 'and' conditional
     | 'or' conditional
     | ':';
+    
+ONELINECOMMENT: ('#' | '##') .*? -> skip;
+
+MULTICOMMENT: '\'\'\'' ( . | '\n' | '\r')*? '\'\'\'' ->skip ;
 
 NEWLINE: [\n\r]+;
 
