@@ -42,7 +42,7 @@ for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE innerloop;
 
 while: 'while' conditional+ NEWLINE innerloop;
 
-innerloop: (('\t'+ expr | '\t'+ blocks | '\t'+ loops) NEWLINE?)+ | '\t' innerloop (blocks | loops)*;
+innerloop: (('\t'+ expr | '\t'+ blocks | '\t'+ loops) NEWLINE?)+;
 
 conditional: '('? expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr ')'? two
     | ('not')? (VARNAME)
