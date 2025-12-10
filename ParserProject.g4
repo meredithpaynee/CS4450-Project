@@ -28,8 +28,8 @@ bool: 'True' | 'False';
 
 assignment:  VARNAME ('=' | '+=' | '-=' | '*=' | '/=') expr;
 
-blocks: 'if' conditional ':' NEWLINE innerloop 
-    ('elif' conditional ':' NEWLINE innerloop)*
+blocks: 'if' conditional ':' NEWLINE innerloop
+    ('elif' conditional ':' NEWLINE innerloop )*
     ('else' ':' NEWLINE innerloop)?;
 
 loops: for | while;
@@ -38,7 +38,8 @@ for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE innerloop;
 
 while: 'while' conditional ':' NEWLINE innerloop;
 
-innerloop: ('\t'+ (expr | blocks | loops) NEWLINE?)+;
+innerloop: (TAB+ innerInner (NEWLINE TAB+ innerInner)* NEWLINE?);
+innerInner: TAB* (expr|blocks|loops);
 
 conditional: '('? expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr ')'? two
     | 'not' (VARNAME) two
@@ -54,6 +55,7 @@ ONELINECOMMENT: ('#' ~[\r\n]*) -> skip;
 
 MULTICOMMENT: ('\'\'\'' .*? '\'\'\'') ->skip ;
 
+TAB: '\t';
 NEWLINE: [\n\r]+;
 
 //current issues
