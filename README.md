@@ -24,6 +24,7 @@ Deliverable 2 - We operated under the same collaboration style as in deliverable
 Deliverable 3 - We operated under the same collaboration style as in the previous 2 deliverables. All work was completed during in person collaboration.
 
 ## Link to Video Demonstration
-
+https://youtu.be/4BW8wJVO1bw
 ## Final Parse Tree
-Deliverable3ParseTree.svg
+<img width="8863" height="596" alt="image" src="https://github.com/user-attachments/assets/60c60ae3-8002-495c-b606-b9e1316c5e89" />
+
