@@ -43,8 +43,9 @@ conditional: '('? expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr ')'? two
 two: 'and' conditional
     | 'or' conditional
     | ':';
-    
-ONELINECOMMENT: ('#' | '##') .*? -> skip;
-MULTICOMMENT: '\'\'\'' ( . | '\n' | '\r')*? '\'\'\'' ->skip ;
+
+ONELINECOMMENT: ('#' ~[\r\n]*) -> skip;
+MULTICOMMENT: ('\'\'\'' .*? '\'\'\'') ->skip ;
 NEWLINE: [\n\r]+;
 WS: [ ]+ -> skip;
+
