@@ -33,7 +33,7 @@ loops: for | while;
 for: 'for' VARNAME 'in' (VARNAME | FUNCTION) ':' NEWLINE innerloop;
 while: 'while' conditional+ NEWLINE innerloop;
 
-innerloop: (('\t'+ expr | '\t'+ if '\t'* elif* | '\t'+ loops) NEWLINE?)+;
+innerloop: (('\t'+ expr | '\t'+ if '\t'* elif* else? | '\t'+ loops) NEWLINE?)+;
 
 conditional: '('? expr ('>' | '<' | '<=' | '>=' | '!=' | '==') expr ')'? two
     | ('not')? (VARNAME)
