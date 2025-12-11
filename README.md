@@ -26,3 +26,4 @@ Deliverable 3 - We operated under the same collaboration style as in the previou
 ## Link to Video Demonstration
 
 ## Final Parse Tree
+Deliverable3ParseTree.svg
